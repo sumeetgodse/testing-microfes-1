@@ -5,7 +5,6 @@ const Dotenv = require('dotenv-webpack');
 
 const deps = require("./package.json").dependencies;
 
-const printCompilationMessage = require('./compilation.config.js');
 
 module.exports = (_, argv) => ({
   output: {
@@ -18,23 +17,7 @@ module.exports = (_, argv) => ({
 
   devServer: {
     port: 3000,
-    historyApiFallback: true,
-    watchFiles: [path.resolve(__dirname, 'src')],
-    onListening: function (devServer) {
-      const port = devServer.server.address().port
-
-      printCompilationMessage('compiling', port)
-
-      devServer.compiler.hooks.done.tap('OutputMessagePlugin', (stats) => {
-        setImmediate(() => {
-          if (stats.hasErrors()) {
-            printCompilationMessage('failure', port)
-          } else {
-            printCompilationMessage('success', port)
-          }
-        })
-      })
-    }
+    historyApiFallback: true
   },
 
   module: {
